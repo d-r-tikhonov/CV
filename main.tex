@@ -1,250 +1,325 @@
-%%%%%%%%%%%%%%%%%
-% This is an sample CV template created using altacv.cls
-% (v1.3, 10 May 2020) written by LianTze Lim (liantze@gmail.com). Now compiles with pdfLaTeX, XeLaTeX and LuaLaTeX.
-% (v1.7.1b, 11 Jan 2024) forked by Nicolás Omar González Passerino (nicolas.passerino@gmail.com)
-%
-%% It may be distributed and/or modified under the
-%% conditions of the LaTeX Project Public License, either version 1.3
-%% of this license or (at your option) any later version.
-%% The latest version of this license is in
-%%    http://www.latex-project.org/lppl.txt
-%% and version 1.3 or later is part of all distributions of LaTeX
-%% version 2003/12/01 or later.
-%%%%%%%%%%%%%%%%
+\documentclass[10pt, letterpaper]{article}
 
-%% If you need to pass whatever options to xcolor
-\PassOptionsToPackage{dvipsnames}{xcolor}
+\usepackage[
+    ignoreheadfoot,    % set margins without considering header and footer
+    top      = 1.0 cm, % seperation between body and page edge from the top
+    bottom   = 1.0 cm, % seperation between body and page edge from the bottom
+    left     = 1.0 cm, % seperation between body and page edge from the left
+    right    = 1.0 cm, % seperation between body and page edge from the right
+    footskip = 1.0 cm, % seperation between body and footer
+    % showframe        % for debugging 
+]{geometry}
 
-%% If you are using \orcid or academicons
-%% icons, make sure you have the academicons
-%% option here, and compile with XeLaTeX
-%% or LuaLaTeX.
-% \documentclass[10pt,a4paper,academicons]{altacv}
+\usepackage[
+    pdftitle={Dmitry Tikhonov's CV},
+    pdfauthor={Dmitry Tikhonov},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref}
 
-%% Use the "normalphoto" option if you want a normal photo instead of cropped to a circle
-% \documentclass[10pt,a4paper,normalphoto]{altacv}
-
-%% Fork (before v1.6.5a): CV dark mode toggle enabler to use a inverted color palette.
-%% Use the "darkmode" option if you want a color palette used to 
-% \documentclass[10pt,a4paper,ragged2e,withhyper,darkmode]{altacv}
-
-\documentclass[10pt,a4paper,ragged2e,withhyper]{altacv}
-
-%% AltaCV uses the fontawesome5 and academicons fonts
-%% and packages.
-%% See http://texdoc.net/pkg/fontawesome5 and http://texdoc.net/pkg/academicons for full list of symbols. You MUST compile with XeLaTeX or LuaLaTeX if you want to use academicons.
-
-%% Fork v1.6.5c: Overwriting sloppy environment to ignore any spaces and be used to solve overlapping cvtags
-\newenvironment{sloppypar*}{\sloppy\ignorespaces}{\par}
-
-% Change the page layout if you need to
-\geometry{left=1.2cm,right=1.2cm,top=1cm,bottom=1cm,columnsep=0.75cm}
-
-% The paracol package lets you typeset columns of text in parallel
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{primaryColor}{RGB}{0, 79, 144}
+\usepackage{enumitem}
+\usepackage{fontawesome5}
+\usepackage{amsmath}
+\usepackage[pscoord]{eso-pic}
+\usepackage{calc}
+\usepackage{bookmark}
+\usepackage{lastpage}
+\usepackage{changepage}
 \usepackage{paracol}
+\usepackage{ifthen}
+\usepackage{needspace}
+\usepackage{iftex}
 
-% Change the font if you want to, depending on whether
-% you're using pdflatex or xelatex/lualatex
-\ifxetexorluatex
-  % If using xelatex or lualatex:
-  \setmainfont{Roboto Slab}
-  \setsansfont{Lato}
-  \renewcommand{\familydefault}{\sfdefault}
-\else
-  % If using pdflatex:
-  \usepackage[rm]{roboto}
-  \usepackage[defaultsans]{lato}
-  % \usepackage{sourcesanspro}
-  \renewcommand{\familydefault}{\sfdefault}
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    % \usepackage[T1]{fontenc} % this breaks sb2nov
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
 \fi
 
-% Fork (before v1.6.5a): Change the color codes to test your personal variant on any mode
-\ifdarkmode%
-  \definecolor{PrimaryColor}{HTML}{C69749}
-  \definecolor{SecondaryColor}{HTML}{D49B54}
-  \definecolor{ThirdColor}{HTML}{1877E8}
-  \definecolor{BodyColor}{HTML}{ABABAB}
-  \definecolor{EmphasisColor}{HTML}{ABABAB}
-  \definecolor{BackgroundColor}{HTML}{191919}
-\else%
-  \definecolor{PrimaryColor}{HTML}{001F5A}
-  \definecolor{SecondaryColor}{HTML}{0039AC}
-  \definecolor{ThirdColor}{HTML}{F3890B}
-  \definecolor{BodyColor}{HTML}{666666}
-  \definecolor{EmphasisColor}{HTML}{2E2E2E}
-  \definecolor{BackgroundColor}{HTML}{E2E2E2}
-\fi%
+% Some settings:
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0cm} % set column seperation
+\makeatletter
+\let\ps@customFooterStyle\ps@plain % Copy the plain style to customFooterStyle
+\makeatother
+\pagestyle{customFooterStyle}
 
-\colorlet{name}{PrimaryColor}
-\colorlet{tagline}{SecondaryColor}
-\colorlet{heading}{PrimaryColor}
-\colorlet{headingrule}{ThirdColor}
-\colorlet{subheading}{SecondaryColor}
-\colorlet{accent}{SecondaryColor}
-\colorlet{emphasis}{EmphasisColor}
-\colorlet{body}{BodyColor}
-\pagecolor{BackgroundColor}
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
 
-% Change some fonts, if necessary
-\renewcommand{\namefont}{\Huge\rmfamily\bfseries}
-\renewcommand{\personalinfofont}{\small\bfseries}
-\renewcommand{\cvsectionfont}{\LARGE\rmfamily\bfseries}
-\renewcommand{\cvsubsectionfont}{\large\bfseries}
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
 
-% Change the bullets for itemize and rating marker
-% for \cvskill if you want to
-\renewcommand{\itemmarker}{{\small\textbullet}}
-\renewcommand{\ratingmarker}{\faCircle}
+\renewcommand\labelitemi{$\circ$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
 
-%% sample.bib contains your publications
-%% \addbibresource{main.bib}
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep     = 0.10 cm,
+        parsep     = 0.10 cm,
+        partopsep  = 0  pt,
+        itemsep    = 0  pt,
+        leftmargin = 10 pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0.2 cm + 0.00001 cm
+    }{
+        0.2 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
 
 \begin{document}
-    \name{Dmitry Tikhonov}
-    \tagline{3d year student}
-    %% You can add multiple photos on the left or right
-    \photoL{4cm}{drt}
 
-    \personalinfo{
-        \email{tikhonov.dr@phystech.edu}\smallskip
-        \phone{+7 (918) 449-95-35}
-        \location{Dolgoprudny, Russia}\\
-        \github{d-r-tikhonov}
-        %\homepage{nicolasomar.me}
-        %\medium{nicolasomar}
-        %% You MUST add the academicons option to \documentclass, then compile with LuaLaTeX or XeLaTeX, if you want to use \orcid or other academicons commands.
-        % \orcid{0000-0000-0000-0000}
-        %% You can add your own arbtrary detail with
-        %% \printinfo{symbol}{detail}[optional hyperlink prefix]
-        % \printinfo{\faPaw}{Hey ho!}[https://example.com/]
-        %% Or you can declare your own field with
-        %% \NewInfoFiled{fieldname}{symbol}[optional фhyperlink prefix] and use it:
-        % \NewInfoField{gitlab}{\faGitlab}[https://gitlab.com/]
-        % \gitlab{your_id}
-    }
+    \begin{header}
+        \textbf{\fontsize{14 pt}{14 pt}\selectfont DMITRY TIKHONOV}
+
+        \normalsize
+        \mbox{\hrefWithoutArrow{mailto:tikhonov.dr@phystech.edu}{\color{black}{\footnotesize\faAt}\hspace*{0.13cm}tikhonov.dr@phystech.edu}}
+        \kern 0.25 cm
+        \mbox{\hrefWithoutArrow{https://t.me/d_r_tikhonov}{\color{black}{\footnotesize\faTelegram}\hspace*{0.13cm}d\_r\_tikhonov}}
+        \kern 0.25 cm
+        \mbox{\hrefWithoutArrow{https://github.com/d-r-tikhonov}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}d-r-tikhonov}}
+    \end{header}
+
+    % \section{Summary}
+        
+    %     \begin{onecolentry}
+    %         \href{https://rendercv.com}{RenderCV} is a LaTeX-based CV/resume version-control and maintenance app. It allows you to create a high-quality CV or resume as a PDF file from a YAML file, with \textbf{Markdown syntax support} and \textbf{complete control over the LaTeX code}.
+    %     \end{onecolentry}
+
+    %     \vspace{0.2 cm}
+
+    %     \begin{onecolentry}
+    %         The boilerplate content was inspired by \href{https://github.com/dnl-blkv/mcdowell-cv}{Gayle McDowell}.
+    %     \end{onecolentry}
+
+
+    \section{Education}
+        
+        \begin{twocolentry}{
+            
+            
+        \textit{Sep. 2022 – Sep. 2026}}
+            \textbf{Moscow Institute of Physics and Technology}
+
+            \textit{Applied Mathematics and Physics}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item GPA: 8.5/10.0 
+                % \href{https://example.com}{a link to somewhere})
+                % \item \textbf{Coursework:} Computer Architecture, Comparison of Learning Algorithms, Computational Theory
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+            \textit{Mar. 2024 – Dec. 2024}}
+            \textbf{Advanced machine learning methods}
+
+            \textit{Digital Department MIPT}
+        \end{twocolentry}
     
-    \makecvheader
-    %% Depending on your tastes, you may want to make fonts of itemize environments slightly smaller
-    % \AtBeginEnvironment{itemize}{\small}
+            \vspace{0.10 cm}
+            \begin{onecolentry}
+                \begin{highlights}
+                    \item During the course I learned how to use Python for data processing
+                    % \href{https://example.com}{a link to somewhere})
+                    % \item \textbf{Coursework:} Computer Architecture, Comparison of Learning Algorithms, Computational Theory
+                \end{highlights}
+            \end{onecolentry}
+
     
-    %% Set the left/right column width ratio to 6:4.
-    \columnratio{0.25}
+    \section{Experience}
 
-    % Start a 2-column paracol. Both the left and right columns will automatically
-    % break across pages if things get too long.
-    \begin{paracol}{2}
-        % ----- TECH STACK -----2
-        % \cvsection{SOFT SKILLS}
-        %     %% Fork v1.6.5c: The sloppypar* environment is used to avoid tags overlapping with section width
-        %     \begin{sloppypar*}
-        %         %% Fork 1.7.1b: Now in case you want to highlight any tag, just add a '/true' property next to its text and it will change tag's text and border colors.
-        %         \cvtags{Quick learner/true, Responsible/true, Time managment/true, Teamwork/true, Flexibility, Stress-resistant, Attention to detail/true}
-        %     \end{sloppypar*}
-        % ----- TECH STACK -----
-        
-        % ----- LEARNING -----
-        \cvsection{HARD SKILLS}
-            \begin{sloppypar*}
-                \cvtags{C, Python/true, git, GNS3/true, Linux, Bash/true, Markdown, TCP\slash IP/true, Cisco, VLAN/true, LACP, ARP/true, xSTP/true, RIP, OSPF}
-            \end{sloppypar*}
-        % ----- LEARNING -----
-        
-        % ----- LANGUAGES -----
-        \cvsection{Languages}
-            \cvlang{Russian}{Native}\\
-            \divider
+        \begin{twocolentry}
+        {
+            \textit{Moscow}   
 
-            \cvlang{English}{A2+}
-            \bigskip
-            %% Yeah I didn't spend too much time making all the
-            %% spacing consistent... sorry. Use \smallskip, \medskip,
-            %% \bigskip, \vpsace etc to make ajustments.
-        % ----- LANGUAGES -----
+            \textit{Feb. 2025 – present}
+        }
+            \textbf{Head of the Educational Department}
             
-        % ----- REFERENCES -----
-        % \cvsection{References}
-        %     \cvref{Prof.\ Alpha Beta}{Institute}{a.beta@university.edu}
-        %     \divider
+            \textit{Student Council of the DREC, MIPT}
+        \end{twocolentry}
 
-        %     \cvref{Boss\ Gamma Delta}{Business}{g.delta@business.com}
-        % ----- REFERENCES -----
-        
-        % ----- MOST PROUD -----
-        % \cvsection{Most Proud of}
-        
-        % \cvachievement{\faTrophy}{Fantastic Achievement}{and some details about it}\\
-        % \divider
-        % \cvachievement{\faHeartbeat}{Another achievement}{more details about it of course}\\
-        % \divider
-        % \cvachievement{\faHeartbeat}{Another achievement}{more details about it of course}
-        % ----- MOST PROUD -----
-        
-        % use ONLY \newpage if you want to force a page break for
-        % ONLY the current column
-        \newpage
-        
-        %% Switch to the right column. This will now automatically move to the second
-        %% page if the content is too long.
-        \switchcolumn
-        
-        % ----- ABOUT ME -----
-        \cvsection{About Me}
-            \begin{quote}
-                During my studies at MIPT I developed an interest networks. In my second year of study, I took an additional course on the basics of telecommunication technologies organized by the IITP RAS. This semester I was a student of the Klimanov M.M. computer networks course. I want to gain experience working with real networks that are located in different parts of the world.
-            \end{quote}
-        % ----- ABOUT ME -----
-        
-        % ----- EXPERIENCE -----
-        % \cvsection{Experience}
-        %     \cvevent{Charge}{Company}{Mm YYYY -- Mm YYYY}{City, Country}
-        %     \begin{itemize}
-        %         \item First achievement
-        %         \item Second achievement
-        %         \item Third achievement
-        %     \end{itemize}
-        %     \divider
-            
-        %     \cvevent{Charge}{Company}{Mm YYYY -- Mm YYYY}{City, Country}
-        %     \begin{itemize}
-        %         \item First achievement
-        %         \item Second achievement
-        %         \item Third achievement
-        %     \end{itemize}
-        % ----- EXPERIENCE -----
-        
-        % ----- EDUCATION -----
-        \cvsection{Education}
-            \cvevent{Moscow Institute Physics and Technology}{DREC}{2022 -- 2026}{Dolgoprudny, Russia}
-            \begin{itemize}
-                \item GPA: 8.7/10
-            \end{itemize}
-            \divider
-            
-            \cvevent{Fundamentals of telecommunication technologies}{The Institute for Information Transmission Problems}{2024}{MIPT}
-            \begin{itemize}
-                \item Lecturer: A. Kureev
-            \end{itemize}
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Developed a system of student surveys that revealed weaknesses in teaching and allowed for the modernization of learning
+                \item Automated survey processing using Python and SQL
+            \end{highlights}
+        \end{onecolentry}
 
-            \divider
-            \cvevent{Advanced machine learning methods}{Digital Department}{2024}{MIPT}
-            \begin{itemize}
-                \item About course: solving analytical problems using python
-            \end{itemize}
-        % ----- EDUCATION -----
+
+        % \vspace{0.2 cm}
+
+        % \begin{twocolentry}{
+        % \textit{Redmond, WA}    
+            
+        % \textit{June 2003 – Aug 2003}}
+        %     \textbf{Software Engineer Intern}
+            
+        %     \textit{Microsoft}
+        % \end{twocolentry}
+
+        % \vspace{0.10 cm}
+        % \begin{onecolentry}
+        %     \begin{highlights}
+        %         \item Designed a UI for the VS open file switcher (Ctrl-Tab) and extended it to tool windows
+        %         \item Created a service to provide gradient across VS and VS add-ins, optimizing its performance via caching
+        %         \item Built an app to compute the similarity of all methods in a codebase, reducing the time from $\mathcal{O}(n^2)$ to $\mathcal{O}(n \log n)$
+        %         \item Created a test case generation tool that creates random XML docs from XML Schema
+        %         \item Automated the extraction and processing of large datasets from legacy systems using SQL and Perl scripts
+        %     \end{highlights}
+        % \end{onecolentry}
+
+
+
+    
+    \section{Publications}
+
+
+
         
-        % ----- PROJECTS -----
-        \cvsection{Projects}
-            \cvevent{Hamming-Code-Implementation}{\cvreference{\faGithub}{https://github.com/d-r-tikhonov/Hamming-Code-Implementation}}{March 2024 -- May 2024}{}
-            \begin{itemize}
-                \item A program for single-bit error correcting
-            \end{itemize}
-            \divider
+        \begin{samepage}
+            \begin{twocolentry}{
+                \textit{Jun. 2024}
+            }
+                \textbf{Random Number Generator}
+
+                \vspace{0.10 cm}
+
+                \mbox{D. A. Matiushin}, \mbox{L. M. Lobanov}, \mbox{\textbf{\textit{D. R. Tikhonov}}}, \mbox{V. Yu. Stozhkov}, \mbox{G. I. Lapushkin}
+            \end{twocolentry}
+
+
+            \vspace{0.10 cm}
+
+            \begin{onecolentry}
+        \href{https://clck.ru/3GQcUM}{53.06, 681.527.7}
+            \end{onecolentry}
+        \end{samepage}
+
+
+    
+    \section{Projects}
+
+
+
         
-        \cvevent{Random Number Generator}{\cvreference{\faGithub}{https://github.com/d-r-tikhonov/GRN_article}}{September 2023 -- April 2024}{}
-        \begin{itemize}
-            \item Random number generation based on bipolar transistor noise. The results of the work were presented in a scientific journal
-        \end{itemize}
-        \divider
-        % ----- PROJECTS -----
-    \end{paracol}
+        \begin{twocolentry}{
+            
+            
+        \textit{\href{https://github.com/d-r-tikhonov/GRN_article}{github.com}}}
+            \textbf{Random Number Generator}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Used Python to predict the p-value and process data obtained from a random number generator
+                \item Random number generation based on bipolar transistor noise. The results of the work were presented in a scientific journal
+            \end{highlights}
+        \end{onecolentry}
+
+        % \vspace{0.2 cm}
+
+        % \begin{twocolentry}{
+            
+            
+        % \textit{\href{https://github.com/sinaatalay/rendercv}{github.com/name/repo}}}
+        %     \textbf{Synchronized Desktop Calendar}
+        % \end{twocolentry}
+
+        % \vspace{0.10 cm}
+        % \begin{onecolentry}
+        %     \begin{highlights}
+        %         \item Developed a desktop calendar with globally shared and synchronized calendars, allowing users to schedule meetings with other users
+        %         \item Tools Used: C\#, .NET, SQL, XML
+        %     \end{highlights}
+        % \end{onecolentry}
+    
+    \section{Skills}
+
+        \begin{onecolentry}
+            \textbf{Technical:} Python (pandas, numpy, matplotlib, plotly, scipy), PyCharm, SQL
+        \end{onecolentry}
+
+        \begin{onecolentry}
+            \textbf{Network Skills:} TCP/IP, Cisco, VLAN, LACP, ARP, RIP, OSPF, xSTP, VPN
+        \end{onecolentry}
+
+        \begin{onecolentry}
+            \textbf{Other:}  Miro, LaTex
+        \end{onecolentry}
+
+        \begin{onecolentry}
+            \textbf{Languages:} English (B1), Russian (native)
+        \end{onecolentry}
+
 \end{document}
